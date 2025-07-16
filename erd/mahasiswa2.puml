@@ -1,0 +1,57 @@
+@startuml
+
+entity "Mahasiswa" as Mahasiswa {
+  *id_user 
+  --
+  nama 
+  email
+  password 
+  no_hp 
+  tanggal_daftar
+}
+
+entity "Transaksi" as Transaksi {
+  *id_transaksi 
+  --
+  id_user 
+  id_kategori 
+  kategori 
+  jumlah 
+  tanggal_transaksi 
+  keterangan 
+}
+
+entity "Kategori" as Kategori {
+  *id_kategori 
+  --
+  nama_kategori 
+}
+
+entity "Anggaran" as Anggaran {
+  *id_anggaran 
+  --
+  id_user 
+  total_anggaran 
+  periode_mulai
+  periode_selesai 
+  rekomendasi_sistem 
+}
+
+entity "Hasil_Apriori" as Apriori {
+  *id_rule 
+  --
+  id_user 
+  rule 
+  support 
+  confidence 
+  lift 
+  rekomendasi 
+}
+
+'Relasi One-to-Many
+Mahasiswa ||--o{ Transaksi : memiliki
+Mahasiswa ||--o{ Anggaran : memiliki
+Mahasiswa ||--o{ Apriori : dianalisis
+Kategori ||--o{ Transaksi : diklasifikasikan
+
+@enduml

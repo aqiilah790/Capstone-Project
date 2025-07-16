@@ -1,0 +1,22 @@
+@startuml
+
+start
+
+:Input dataset transaksi;
+:tentukan minimum Support & Confidence;
+
+if (Cek Support?) then (ya)
+  :Bentuk Aturan Asosiasi;
+  if (Cek Confidence?) then (ya)
+    :Simpan Aturan;
+    :Tampilkan Hasil;
+  else (tidak)
+    :Aturan dibuang;
+  endif
+else (tidak)
+  :Itemset dibuang;
+endif
+
+stop
+
+@enduml

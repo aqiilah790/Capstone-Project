@@ -1,0 +1,57 @@
+@startuml
+
+entity "Mahasiswa" as Mahasiswa {
+  *id_user : int <<PK>>
+  --
+  nama : string
+  email : string
+  password : string
+  no_hp : string
+  tanggal_daftar : date
+}
+
+entity "Transaksi" as Transaksi {
+  *id_transaksi : int <<PK>>
+  --
+  id_user : int <<FK>>
+  id_kategori : int <<FK>>
+  kategori : string
+  jumlah : decimal
+  tanggal_transaksi : date
+  keterangan : string
+}
+
+entity "Kategori" as Kategori {
+  *id_kategori : int <<PK>>
+  --
+  nama_kategori : string
+}
+
+entity "Anggaran" as Anggaran {
+  *id_anggaran : int <<PK>>
+  --
+  id_user : int <<FK>>
+  total_anggaran : decimal
+  periode_mulai : date
+  periode_selesai : date
+  rekomendasi_sistem : text
+}
+
+entity "Apriori_Result" as Apriori {
+  *id_rule : int <<PK>>
+  --
+  id_user : int <<FK>>
+  rule : string
+  support : float
+  confidence : float
+  lift : float
+  rekomendasi : text
+}
+
+'Relasi One-to-Many
+Mahasiswa ||--o{ Transaksi : memiliki
+Mahasiswa ||--o{ Anggaran : memiliki
+Mahasiswa ||--o{ Apriori : dianalisis
+Kategori ||--o{ Transaksi : diklasifikasikan
+
+@enduml

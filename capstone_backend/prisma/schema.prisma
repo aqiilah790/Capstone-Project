@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_user        Int             @id @default(autoincrement())
+  nama           String?         @db.VarChar(100)
+  email          String?         @unique @db.VarChar(100)
+  password       String?         @db.VarChar(100)
+  no_hp          String?         @db.VarChar(20)
+  tanggal_daftar DateTime        @default(now()) @db.Date
+  anggaran       anggaran[]
+  hasil_apriori  hasil_apriori[]
+  transaksi      transaksi[]
+}
+
+
+model anggaran {
+  id_anggaran     Int     @id @default(autoincrement())
+  id_user            Int
+  total_anggaran     Decimal?  @db.Decimal(15, 2)
+  periode_mulai      DateTime? @db.Date
+  periode_selesai    DateTime? @db.Date
+  rekomendasi_sistem String?
+  User               User?     @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model hasil_apriori {
+  id_rule     Int      @id @default(autoincrement())
+  id_user     Int
+  rule        String
+  rekomendasi String
+  support     Float
+  confidence  Float
+  lift        Float
+  waktu_dibuat DateTime @default(now())
+
+  user User @relation(fields: [id_user], references: [id_user])
+
+  @@unique([id_user, rule, rekomendasi])
+}
+
+
+
+model kategori {
+  id_kategori   Int         @id @default(autoincrement())
+  nama_kategori String     @unique @db.VarChar(30)
+  tipe            String      @default("pengeluaran")
+  transaksi     transaksi[]
+}
+
+
+model transaksi {
+  id_transaksi        Int       @id @default(autoincrement())
+  id_user             Int?
+  id_kategori         Int
+  kategori_nama       String?   @db.VarChar(30)
+  jumlah              Decimal?  @db.Decimal(15, 2)
+  tanggal_transaksi   DateTime @db.Date
+  keterangan          String?
+  kategori_relasi     kategori  @relation(fields: [id_kategori], references: [id_kategori])
+  User                User?     @relation(fields: [id_user], references: [id_user])
+}
+
+

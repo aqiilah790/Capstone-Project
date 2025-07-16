@@ -1,0 +1,22 @@
+@startuml
+
+start
+:user membuka aplikasi;
+
+if ("apakah sudah memiliki akun?") then ([tidak])
+:Tampilkan pesan error;
+:Buat akun user;
+:berhasil buat akun;
+else ([iya])
+:Menu Dashboard;
+endif
+
+:input transaksi pengeluaran;
+:klik oke;
+:kirim data ke backend;
+:Analisis pola pengeluaran;
+:menampilkan hasil analisis;
+:user bisa melihat riwayat;
+stop
+
+@enduml
