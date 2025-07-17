@@ -13,7 +13,6 @@ router.get('/saldo', verifyToken, async (req: Request, res: Response) => {
     const id_user = (req as any).user.id;
 
     try {
-        // 1. Total semua anggaran user
         const totalAnggaranResult = await prisma.anggaran.aggregate({
             _sum: { total_anggaran: true },
             where: { id_user },
@@ -21,7 +20,6 @@ router.get('/saldo', verifyToken, async (req: Request, res: Response) => {
 
         const totalAnggaran = Number(totalAnggaranResult._sum.total_anggaran ?? 0);
 
-        // 2. Total semua pengeluaran user
         const pengeluaranResult = await prisma.transaksi.aggregate({
             _sum: { jumlah: true },
             where: {
@@ -34,7 +32,6 @@ router.get('/saldo', verifyToken, async (req: Request, res: Response) => {
 
         const totalPengeluaran = Number(pengeluaranResult._sum.jumlah ?? 0);
 
-        // 3. Hitung saldo
         const saldo = totalAnggaran - totalPengeluaran;
 
         res.json({
@@ -60,7 +57,7 @@ router.post('/anggaran', verifyToken, async (req: AuthRequest, res: Response) =>
     try {
         const anggaran = await prisma.anggaran.create({
             data: {
-                id_user: req.user!.id, // ✅ dari token
+                id_user: req.user!.id,
                 total_anggaran: parseFloat(total_anggaran),
                 periode_mulai: new Date(periode_mulai),
                 periode_selesai: new Date(periode_selesai),

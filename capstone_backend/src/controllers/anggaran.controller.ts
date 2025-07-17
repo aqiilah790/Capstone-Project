@@ -21,7 +21,7 @@ export const getPengeluaranBulanan = async (req: Request, res: Response) => {
             where: {
                 id_user,
                 kategori_nama: {
-                    not: null, // pastikan kolom tidak null
+                    not: null, 
                 },
                 tanggal_transaksi: {
                     gte: bulanAwal,

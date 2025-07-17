@@ -33,7 +33,7 @@ export const getTransaksi = async (req: AuthRequest, res: Response) => {
             orderBy: { tanggal_transaksi: 'desc' },
         });
 
-        // Format tanggal ke 'YYYY-MM-DD'
+
         const formatted = transaksi.map((item) => ({
             ...item,
             tanggal_transaksi: item.tanggal_transaksi.toISOString().split('T')[0],
@@ -53,7 +53,7 @@ export const tambahTransaksi = async (req: AuthRequest, res: Response) => {
         const { id_kategori, jumlah, tanggal_transaksi, keterangan } = req.body;
         const id_user = req.user?.id;
 
-        // Validasi data
+        
         if (!id_user) {
             return res.status(401).json({ message: 'User tidak terautentikasi' });
         }
@@ -62,7 +62,7 @@ export const tambahTransaksi = async (req: AuthRequest, res: Response) => {
             return res.status(400).json({ message: 'Semua field wajib diisi' });
         }
 
-        // Validasi kategori
+        
         const kategori = await prisma.kategori.findUnique({
             where: { id_kategori: Number(id_kategori) },
         });
@@ -71,7 +71,7 @@ export const tambahTransaksi = async (req: AuthRequest, res: Response) => {
             return res.status(404).json({ message: 'Kategori tidak ditemukan' });
         }
 
-        // Simpan transaksi
+        
         const transaksi = await prisma.transaksi.create({
             data: {
                 id_user: id_user,
